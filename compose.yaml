@@ -31,11 +31,18 @@ services:
     depends_on:
       kafka:
         condition: service_healthy
-    entrypoint: ["/bin/sh", "-c"]
-    command: >-
-      /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:19092
-      --create --if-not-exists --topic sensor-readings
-      --partitions 3 --replication-factor 1
+    entrypoint: ["/opt/kafka/bin/kafka-topics.sh"]
+    command:
+      - --bootstrap-server
+      - kafka:19092
+      - --create
+      - --if-not-exists
+      - --topic
+      - sensor-readings
+      - --partitions
+      - "3"
+      - --replication-factor
+      - "1"
 
   consumer:
     build: .

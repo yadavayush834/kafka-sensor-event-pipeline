@@ -2,7 +2,10 @@
 # Run a real broker/producer/consumer round trip in CI or on a Docker host.
 set -eu
 
-docker compose up -d --build kafka init-topic consumer
+docker compose up -d --build kafka init-topic consumer || {
+  docker compose logs kafka init-topic
+  exit 1
+}
 docker compose run --rm producer --count 8 --interval 0
 
 attempt=0
